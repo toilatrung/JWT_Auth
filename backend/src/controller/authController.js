@@ -50,18 +50,18 @@ export const signUp = async (req, res) => {
 export const logIn = async (req, res) => {
     try {
         // Extract login credentials from request body
-        const { username, password } = req.body;
-         if (!username || !password) {
+        const { email, password } = req.body;
+         if (!email || !password) {
             return res
                 .status(400)
-                .json({ message: 'Missing username or password' });
+                .json({ message: 'Missing email or password' });
         }
         //Compare with hashed password in DB to input password
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email });
         if (!user || !(await bcrypt.compare(password, user.hardPassword))) {
             return res
                 .status(401)
-                .json({ message: 'Invalid username or password' });
+                .json({ message: 'Invalid email or password' });
         }
 
         const passwordIsValid = await bcrypt.compare(password, user.hardPassword);

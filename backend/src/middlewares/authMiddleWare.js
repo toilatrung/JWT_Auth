@@ -16,7 +16,7 @@ export const protectedRoute = async (req, res, next) => {
                 return res.status(403).json({ message: 'Forbidden' });
             }
         // Find user by ID from token
-        const user = await User.findById(decodedUser.id).select('-hashedPassword');
+        const user = await User.findById(decodedUser.userId).select('-hardPassword');
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
